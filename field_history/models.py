@@ -16,16 +16,19 @@ class FieldHistory(models.Model):
     object_id = models.TextField(db_index=True)
     content_type = models.ForeignKey('contenttypes.ContentType', db_index=True)
     object = GenericForeignKey()
-    field_name = models.CharField(max_length=500, db_index=True)
+    field_name = models.CharField('Changed Field', max_length=500, db_index=True)
     serialized_data = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True, db_index=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    date_created = models.DateTimeField('Date of Change', auto_now_add=True, db_index=True)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    user = models.CharField('User Name', max_length=50, db_index=True, blank=False, null=True)
+    object_name = models.CharField('Object Name', max_length=500, db_index=True, blank=False, null=True)
 
     objects = FieldHistoryManager()
 
     class Meta:
-        app_label = 'field_history'
         get_latest_by = 'date_created'
+        verbose_name = 'History Item'
+        verbose_name_plural = 'History Items'
 
     def __str__(self):
         return '{} field history for {}'.format(self.field_name, self.object)

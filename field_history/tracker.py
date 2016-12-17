@@ -106,6 +106,7 @@ class FieldHistoryTracker(object):
                         field_name=field,
                         serialized_data=data,
                         user=user,
+                        object_name=str(instance),
                     )
                     field_histories.append(history)
 
